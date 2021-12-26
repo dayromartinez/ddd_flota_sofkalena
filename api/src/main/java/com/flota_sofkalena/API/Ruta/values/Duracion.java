@@ -1,8 +1,8 @@
-package com.flota_sofkalena.API.Cliente.values;
+package com.flota_sofkalena.API.Ruta.values;
 
 import co.com.sofka.domain.generic.ValueObject;
 
-public class Email implements ValueObject<String> {
+public class Duracion implements ValueObject<String> {
     public String value(){
         return null;
     }

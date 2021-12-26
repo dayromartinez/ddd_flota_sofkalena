@@ -1,4 +1,6 @@
 package com.flota_sofkalena.API.Cliente.values;
 
-public class UsuarioId {
+import co.com.sofka.domain.generic.Identity;
+
+public class UsuarioId extends Identity {
 }

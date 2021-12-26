@@ -1,4 +1,9 @@
 package com.flota_sofkalena.API.Ruta.values;
 
-public class Extension {
+import co.com.sofka.domain.generic.ValueObject;
+
+public class Extension implements ValueObject<String> {
+    public String value(){
+        return null;
+    }
 }

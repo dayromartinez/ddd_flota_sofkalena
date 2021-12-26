@@ -1,4 +1,9 @@
 package com.flota_sofkalena.API.valuesGenerics;
 
-public class Estado {
+import co.com.sofka.domain.generic.ValueObject;
+
+public class Estado implements ValueObject<Enum> {
+    public Enum value() {
+        return null;
+    }
 }

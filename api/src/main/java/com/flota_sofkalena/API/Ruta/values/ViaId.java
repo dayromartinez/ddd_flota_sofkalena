@@ -1,4 +1,6 @@
 package com.flota_sofkalena.API.Ruta.values;
 
-public class ViaId {
+import co.com.sofka.domain.generic.Identity;
+
+public class ViaId extends Identity {
 }

@@ -1,4 +1,9 @@
 package com.flota_sofkalena.API.Cliente.values;
 
-public class HoraInicioYLlegada {
+import co.com.sofka.domain.generic.ValueObject;
+
+public class HoraInicioYLlegada implements ValueObject<String> {
+    public String value(){
+        return null;
+    }
 }

@@ -1,4 +1,6 @@
 package com.flota_sofkalena.API.Terminal.values;
 
-public class TerminalId {
+import co.com.sofka.domain.generic.Identity;
+
+public class TerminalId extends Identity {
 }
