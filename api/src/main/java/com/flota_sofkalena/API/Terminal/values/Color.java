@@ -1,4 +1,9 @@
 package com.flota_sofkalena.API.Terminal.values;
 
-public class Color {
+import co.com.sofka.domain.generic.ValueObject;
+
+public class Color implements ValueObject<String> {
+    public String value(){
+        return null;
+    }
 }

@@ -1,4 +1,9 @@
 package com.flota_sofkalena.API.Terminal.values;
 
-public class Capacidad {
+import co.com.sofka.domain.generic.ValueObject;
+
+public class Capacidad implements ValueObject<Integer> {
+    public Integer value(){
+        return null;
+    }
 }

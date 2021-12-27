@@ -1,4 +1,6 @@
 package com.flota_sofkalena.API.Terminal.values;
 
-public class BusId {
+import co.com.sofka.domain.generic.Identity;
+
+public class BusId extends Identity {
 }
