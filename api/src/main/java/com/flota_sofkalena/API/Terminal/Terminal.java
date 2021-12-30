@@ -1,6 +1,7 @@
 package com.flota_sofkalena.API.Terminal;
 
 import co.com.sofka.domain.generic.AggregateEvent;
+import co.com.sofka.domain.generic.DomainEvent;
 import com.flota_sofkalena.API.Ruta.Ruta;
 import com.flota_sofkalena.API.Ruta.values.RutaId;
 import com.flota_sofkalena.API.Terminal.entidades.Bus;
@@ -26,11 +27,22 @@ public class Terminal extends AggregateEvent<TerminalId> {
     protected List<Bus> buses;
     protected List<Ruta> rutas;
     protected List<Conductor> conductores;
-    protected List<Terminal> terminales;
+    protected TerminalId terminalId;
 
     public Terminal(TerminalId entityId, Direccion direccion, Dimensiones dimensiones, Horario horario, Capacidad capacidad) {
         super(entityId);
         appendChange(new TerminalCreado(entityId, direccion, dimensiones, horario, capacidad)).apply();
+    }
+
+    private Terminal(TerminalId entityId){
+        super(entityId);
+        subscribe(new TerminalChange(this));
+    }
+
+    public static Terminal from(TerminalId terminalId, List<DomainEvent> events){
+        var terminal = new Terminal(terminalId);
+        events.forEach(terminal::applyEvent);
+        return terminal;
     }
 
     public void actualizarDireccion(Direccion direccion){
@@ -111,22 +123,10 @@ public class Terminal extends AggregateEvent<TerminalId> {
         appendChange(new CapacidadBusActualizada(busId, capacidad)).apply();
     }
 
-    public void actualizarCategoriaBus(BusId busId, Categoria categoria){
-        Objects.requireNonNull(busId);
-        Objects.requireNonNull(categoria);
-        appendChange(new CategoriaBusActualizada(busId, categoria)).apply();
-    }
-
     public void actualizarEstadoBus(BusId busId, Estado estado){
         Objects.requireNonNull(busId);
         Objects.requireNonNull(estado);
         appendChange(new EstadoBusActualizado(busId, estado)).apply();
-    }
-
-    public Optional<Terminal> getTerminalPorTerminalId(TerminalId terminalId){
-        return terminales.stream().
-                filter(terminal -> terminal.identity().equals(terminalId))
-                .findFirst();
     }
 
     public List<Conductor> getConductoresPorTerminalId(TerminalId terminalId){
@@ -139,12 +139,6 @@ public class Terminal extends AggregateEvent<TerminalId> {
         return conductores.stream()
                 .filter(conductor -> conductor.identity().equals(conductorId))
                 .findFirst();
-    }
-
-    public List<Bus> getBusesPorTerminalId(TerminalId terminalId){
-        return buses.stream()
-                .filter(bus -> bus.terminalId().equals(terminalId))
-                .collect(Collectors.toList());
     }
 
     public Optional<Bus> getBusPorBusId(BusId busId){

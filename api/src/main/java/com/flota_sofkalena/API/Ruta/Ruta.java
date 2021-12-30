@@ -127,12 +127,6 @@ public class Ruta extends AggregateEvent<RutaId> {
                 .findFirst();
     }
 
-    /*public List<Ruta> getRutasPorTerminalId(TerminalId terminalId){
-        return rutas.stream()
-                .filter(ruta -> ruta.terminalId().equals(terminalId))
-                .collect(Collectors.toList());
-    }*/
-
     public Nombre nombre() {
         return nombre;
     }
