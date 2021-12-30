@@ -1,6 +1,7 @@
 package com.flota_sofkalena.API.Ruta;
 
 import co.com.sofka.domain.generic.AggregateEvent;
+import co.com.sofka.domain.generic.DomainEvent;
 import com.flota_sofkalena.API.Ruta.entidades.Poblacion;
 import com.flota_sofkalena.API.Ruta.entidades.Via;
 import com.flota_sofkalena.API.Ruta.events.*;
@@ -22,7 +23,6 @@ public class Ruta extends AggregateEvent<RutaId> {
     protected Precio precio;
     protected List<Poblacion> poblaciones;
     protected List<Via> vias;
-    protected List<Ruta> rutas;
     protected RutaId rutaId;
     protected TerminalId terminalId;
 
@@ -34,6 +34,12 @@ public class Ruta extends AggregateEvent<RutaId> {
     private Ruta(RutaId entityId){
         super(entityId);
         subscribe(new RutaChange(this));
+    }
+
+    public static Ruta from(RutaId rutaId, List<DomainEvent> events){
+        var ruta = new Ruta(rutaId);
+        events.forEach(ruta::applyEvent);
+        return ruta;
     }
 
     public void actualizarNombre(Nombre nombre){
@@ -109,22 +115,10 @@ public class Ruta extends AggregateEvent<RutaId> {
         appendChange(new EstadoViaActualizado(viaId, estado)).apply();
     }
 
-    public List<Poblacion> getPoblacionesPorRutaId(RutaId rutaId){
-        return poblaciones.stream()
-                .filter((poblacion -> poblacion.rutaId().equals(rutaId)))
-                .collect(Collectors.toList());
-    }
-
     public Optional<Poblacion> getPoblacionPorPoblacionId(PoblacionId poblacionId){
         return poblaciones.stream()
                 .filter(poblacion -> poblacion.identity().equals(poblacionId))
                 .findFirst();
-    }
-
-    public List<Via> getViasPorRutaId(RutaId rutaId){
-        return vias.stream()
-                .filter(via -> via.rutaId().equals(rutaId))
-                .collect(Collectors.toList());
     }
 
     public Optional<Via> getViaPorViaId(ViaId viaId){
@@ -133,17 +127,11 @@ public class Ruta extends AggregateEvent<RutaId> {
                 .findFirst();
     }
 
-    public Optional<Ruta> getRutaPorRutaId(RutaId rutaId){
-        return rutas.stream()
-                .filter(ruta -> ruta.identity().equals(rutaId))
-                .findFirst();
-    }
-
-    public List<Ruta> getRutasPorTerminalId(TerminalId terminalId){
+    /*public List<Ruta> getRutasPorTerminalId(TerminalId terminalId){
         return rutas.stream()
                 .filter(ruta -> ruta.terminalId().equals(terminalId))
                 .collect(Collectors.toList());
-    }
+    }*/
 
     public Nombre nombre() {
         return nombre;
@@ -171,10 +159,6 @@ public class Ruta extends AggregateEvent<RutaId> {
 
     public List<Via> vias() {
         return vias;
-    }
-
-    public List<Ruta> rutas() {
-        return rutas;
     }
 
     public RutaId rutaId() {
