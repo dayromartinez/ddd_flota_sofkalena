@@ -5,7 +5,6 @@ import com.flota_sofkalena.API.Ruta.entidades.Poblacion;
 import com.flota_sofkalena.API.Ruta.entidades.Via;
 import com.flota_sofkalena.API.Ruta.events.*;
 import com.flota_sofkalena.API.Ruta.values.*;
-import com.flota_sofkalena.API.Terminal.Terminal;
 import com.flota_sofkalena.API.Terminal.values.TerminalId;
 import com.flota_sofkalena.API.valuesGenerics.Estado;
 import com.flota_sofkalena.API.valuesGenerics.Nombre;
@@ -30,6 +29,11 @@ public class Ruta extends AggregateEvent<RutaId> {
     public Ruta(RutaId entityId, Nombre nombre, Extension extension, Estado estado, Duracion duracion, Precio precio, TerminalId terminalId) {
         super(entityId);
         appendChange(new RutaCreada(entityId, nombre, extension, estado, duracion, precio, terminalId)).apply();
+    }
+
+    private Ruta(RutaId entityId){
+        super(entityId);
+        subscribe(new RutaChange(this));
     }
 
     public void actualizarNombre(Nombre nombre){

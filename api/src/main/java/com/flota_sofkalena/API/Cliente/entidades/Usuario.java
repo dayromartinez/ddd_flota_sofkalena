@@ -1,13 +1,10 @@
 package com.flota_sofkalena.API.Cliente.entidades;
 
 import co.com.sofka.domain.generic.Entity;
-import com.flota_sofkalena.API.Cliente.values.Celular;
 import com.flota_sofkalena.API.Cliente.values.Email;
 import com.flota_sofkalena.API.Cliente.values.UserName;
 import com.flota_sofkalena.API.Cliente.values.UsuarioId;
-import com.flota_sofkalena.API.valuesGenerics.Apellido;
-import com.flota_sofkalena.API.valuesGenerics.Nombre;
-import org.apache.catalina.User;
+
 
 import java.util.List;
 import java.util.Objects;
@@ -32,11 +29,19 @@ public class Usuario extends Entity<UsuarioId> {
         this.email = Objects.requireNonNull(email);
     }
 
+    public void actualizarViajesUsuario(List<Viaje> viajes){
+        this.viajesUsuario = viajes;
+    }
+
     public UserName userName(){
         return userName;
     }
 
     public Email email(){
         return email;
+    }
+
+    public List<Viaje> viajesUsuario(){
+        return viajesUsuario;
     }
 }

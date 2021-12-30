@@ -2,8 +2,10 @@ package com.flota_sofkalena.API.Cliente.values;
 
 import co.com.sofka.domain.generic.ValueObject;
 
-public class HoraInicioYLlegada implements ValueObject<String> {
-    public String value(){
-        return null;
+import java.util.HashMap;
+
+public class HoraInicioYLlegada implements ValueObject<HashMap<String, String>> {
+    public HashMap<String, String> value(){
+        return new HashMap<>();
     }
 }

@@ -1,6 +1,7 @@
 package com.flota_sofkalena.API.Cliente;
 
 import co.com.sofka.domain.generic.AggregateEvent;
+import co.com.sofka.domain.generic.DomainEvent;
 import com.flota_sofkalena.API.Cliente.entidades.Usuario;
 import com.flota_sofkalena.API.Cliente.entidades.Viaje;
 import com.flota_sofkalena.API.Cliente.events.*;
@@ -21,12 +22,23 @@ public class Cliente extends AggregateEvent<ClienteId> {
     protected Celular celular;
     protected List<Viaje> viajes;
     protected UsuarioId usuarioId;
-    protected List<Usuario> usuarios;
+    protected Usuario usuario;
     protected ClienteId clienteId;
 
     public Cliente(ClienteId entityId, Nombre nombre, Apellido apellido, Celular celular) {
         super(entityId);
         appendChange(new ClienteCreado(nombre, apellido, celular)).apply();
+    }
+    
+    private Cliente(ClienteId entityId){
+        super(entityId);
+        subscribe(new ClienteChange(this));
+    }
+
+    public static Cliente from(ClienteId clienteId, List<DomainEvent> events){
+        var cliente = new Cliente(clienteId);
+        events.forEach(cliente::applyEvent);
+        return cliente;
     }
 
     public void actualizarNombre(Nombre nombre){
@@ -89,16 +101,10 @@ public class Cliente extends AggregateEvent<ClienteId> {
         appendChange(new HoraInicioYLlegadaViajeActualizada(viajeId, horaInicioYLlegada)).apply();
     }
 
-    public Optional<Usuario> getUsuarioPorId(UsuarioId usuarioId){
-        return usuarios.stream()
-                .filter((usuario) -> usuario.identity().equals(usuarioId))
-                .findFirst();
-    }
-
-    public List<Viaje> getViajesPorClienteId(ClienteId clienteId){
+    public Optional<Viaje> getViajePorId(ViajeId viajeId){
         return viajes.stream()
-                .filter((viaje) -> viaje.clienteId().equals(clienteId))
-                .collect(Collectors.toList());
+                .filter((viaje) -> viaje.identity().equals(viajeId))
+                .findFirst();
     }
 
     public Nombre nombre() {
@@ -117,12 +123,12 @@ public class Cliente extends AggregateEvent<ClienteId> {
         return viajes;
     }
 
-    public UsuarioId usuarioId() {
-        return usuarioId;
+    public Usuario usuario(){
+        return usuario;
     }
 
-    public List<Usuario> usuarios() {
-        return usuarios;
+    public UsuarioId usuarioId() {
+        return usuarioId;
     }
 
     public ClienteId clienteId() {
