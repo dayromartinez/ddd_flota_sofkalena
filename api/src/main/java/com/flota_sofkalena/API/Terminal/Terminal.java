@@ -16,7 +16,6 @@ import com.flota_sofkalena.API.valuesGenerics.Nombre;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class Terminal extends AggregateEvent<TerminalId> {
 
@@ -129,10 +128,10 @@ public class Terminal extends AggregateEvent<TerminalId> {
         appendChange(new EstadoBusActualizado(busId, estado)).apply();
     }
 
-    public List<Conductor> getConductoresPorTerminalId(TerminalId terminalId){
-        return conductores.stream()
-                .filter(conductor -> conductor.terminalId().equals(terminalId))
-                .collect(Collectors.toList());
+    public Optional<Ruta> getRutaPorRutaId(RutaId rutaId){
+        return rutas.stream()
+                .filter(ruta -> ruta.identity().equals(rutaId))
+                .findFirst();
     }
 
     public Optional<Conductor> getConductorPorConductorId(ConductorId conductorId){
