@@ -101,6 +101,12 @@ public class Cliente extends AggregateEvent<ClienteId> {
         appendChange(new HoraInicioYLlegadaViajeActualizada(viajeId, horaInicioYLlegada)).apply();
     }
 
+    public void actualizarViajesUsuario(UsuarioId usuarioId, List<Viaje> viajes){
+        Objects.requireNonNull(usuarioId);
+        Objects.requireNonNull(viajes);
+        appendChange(new ViajesUsuarioActualizado(usuarioId, viajes));
+    }
+
     public Optional<Viaje> getViajePorId(ViajeId viajeId){
         return viajes.stream()
                 .filter((viaje) -> viaje.identity().equals(viajeId))

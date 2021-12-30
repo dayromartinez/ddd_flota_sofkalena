@@ -29,8 +29,8 @@ public class Usuario extends Entity<UsuarioId> {
         this.email = Objects.requireNonNull(email);
     }
 
-    public void actualizarViajesUsuario(List<Viaje> viajes){
-        this.viajesUsuario = viajes;
+    public void actualizarViajes(List<Viaje> viajes){
+        this.viajesUsuario = Objects.requireNonNull(viajes);
     }
 
     public UserName userName(){

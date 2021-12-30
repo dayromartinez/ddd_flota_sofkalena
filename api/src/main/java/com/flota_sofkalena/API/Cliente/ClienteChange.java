@@ -62,7 +62,7 @@ public class ClienteChange extends EventChange {
         });
 
         apply((ViajesUsuarioActualizado event) -> {
-            cliente.usuario.actualizarViajesUsuario(event.getViajes());
+            cliente.usuario.actualizarViajes(event.getViajes());
         });
     }
 }
